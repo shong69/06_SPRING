@@ -40,9 +40,10 @@ public class TestController {
 		 * */
 		
 		/*
-		 * Tymeleaf : JSP 대신 사용하는 템플릿 엔진
-		 *  (classpath : src/main/resources) 
-		 *  접두사 : classpath:/templates/
+		 * Thymeleaf : JSP 대신 사용하는 템플릿 엔진. 리턴 자리에 접두사, 접미사를 붙여줌
+		 * viewResolver가 리턴 값으로 URL을 받아 웹 애플리케이션 디렉토리에서 해당 파일을 찾는다.
+		 * 
+		 *  접두사 : classpath:/templates/        -> (classpath : src/main/resources) 
 		 *  접미사 : .html  
 		 * */
 		//src/main/resources/templates/<  test  >.html
@@ -70,4 +71,6 @@ public class TestController {
 	
 	}
 		*/
+
+	
 }

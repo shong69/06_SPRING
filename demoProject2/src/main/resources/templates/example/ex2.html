@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>타임리프 예제2</title>
+</head>
+<body>
+    <h1>타임리프 예제2</h1>
+
+    <h3>요청 위임된 request에 존재하는 파라미터 출력하기</h3>
+    <pre>
+        ${param.key}
+        - request에 존재하는 prarmeter값 얻어와 출력하기
+
+    </pre>
+
+    <ul>
+        <li th:text="${param.inputName}">제출된 이름</li>
+        <li th:text="${param.inputAge}">제출된 나이</li>
+        <!--같은 name 속성을 가진 파라미터는 배열로 전달됨-->
+        <li th:text="${param.color}">체크된 색상</li>
+
+        <!--전달된 파라미터가 없으면 null == 빈칸임-->
+
+        <!--반복할 배열/리스트가 존재하지 않으면 반복하지 X-->
+        <li th:each="c:${param.color}" th:text="${c}"></li> <!--foreach선언 후 바로 사용하기-->
+
+
+    </ul>
+
+
+
+
+    <hr>
+
+
+    <h3>th:text    /   th:utext</h3>
+
+    <pre>
+        th:text = "속성값"
+        - 해당 태그에 "속성값"을 내용으로 출력해줌
+        - 단, html태그, 특수문자 해석 x(innerText)
+
+        th:utext = "속성값"
+        - 해당 태그에 "속성값"을 내용으로 출력
+        - 단, html 태그, 특수문자 해석 O(innerHTML)
+    </pre>
+
+
+    <div>
+        <h4>th:text (HTML태그 해석 X)</h4>
+        <th:block th:text="${str}"></th:block>
+    </div>
+    <div>
+        <h4>th:utext (HTML태그 해석 O)</h4>
+        <th:block th:utext="${str}"></th:block>
+    </div>
+
+    <hr>
+
+    <h3>
+        th:text / th:utext 출력 시 
+        변수에 저장된 값이 아닌 임의의 내용을 작성했을 때
+    </h3>
+
+    <pre>
+        th:text="|여기에 들어있는 key는 ? ${}|" 
+        -> 문자열 붙이고 싶을 때 쌍따옴표 바로 옆에 백슬래쉬로 같이 묶어줘야함
+    </pre>
+    <p th:text="|th:text의 str => ${str}|"></p>
+    <p th:utext="|th:utext의 str=> ${str}|"></p>
+
+    <hr>
+    <h3>th:text/th:utext 대신하는 특수 기호(괄호)</h3>
+
+    <!--
+        th:text ==[[...]]
+        th:utext== [(...)]
+    -->
+
+    <!--[[...]] 사용-->
+    <p>입력받은 이름 : [[${param.inputName}]]</p>
+
+    <p th:text="|입력받은 이름 : ${param.inputName}|"></p>
+
+    [(${str})]
+
+
+    <hr>
+    <h1>messages.properties 값 출력하기</h1>
+
+    <h3 th:text="#{app.name}">앱이름</h3>
+
+    <!--th:src 속성 : 타임리프를 이용해서 경로를 작성하는 방법
+                    (옆에 작성된 값을 이용해서 src 속성 추가하기)-->
+    <img th:src="#{user.default.image}" style="width:500px;">
+</body>
+</html>

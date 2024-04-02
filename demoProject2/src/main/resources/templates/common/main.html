@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thymeleaf</title>
+</head>
+<body>
+    <h1>Thymeleaf</h1>
+
+    <h3>1. 템플릿 엔진</h3>
+
+    <pre>
+        템플릿 양식과 특정 데이터 모델에 따른 입력 자료를 합성하여
+        결과 문서(응답 화면)을 출력하는 것
+        -> 만들어둔 html 화면에 서버에서 가져온 데이터를 추가해서, 하나의 html로 만들어서 응답해준다
+        (jsp도 템플릿 엔진임)
+        <a href="https://www.thymeleaf.org/">타임리프 홈페이지</a>
+
+
+
+        웹 및 독립실행형 환경 모두를 위한 최신 서버측 자바 템플릿 엔진이다
+        -> 웹 실행 == 요청 시 forward 되는 화면
+        -> 독립 실행 == html 파일 실행(인터넷 연결x)
+
+        HTML 파일에서 th 속성을 이용해 
+        컨트롤러로부터 전달받은 데이터를 이용해 동적 페이지를 만들 수 있다
+        Spring Boot에서는 jsp가 아닌 Thymeleaf 사용을 권장하고 있음
+    </pre>
+
+
+    <ol>
+        <li><a href="/example/ex1">타임리프 예제1</a></li>
+        <li>
+            <form action="/example/ex2" method="post">
+                <h4>타임리프 예제2</h4>
+
+                이름 : <input type="text" name="inputName"><br>
+                나이 : <input type="number" name="inputAge"><br>
+                <br>
+                색상: 
+                Red <input type="checkbox" name="color" value="Red">
+                Green <input type="checkbox" name="color" value="Green">
+                Blue <input type="checkbox" name="color" value="Blue">
+                <button>제출하기</button>
+            </form>
+        </li>
+    </ol>
+</body>
+</html>

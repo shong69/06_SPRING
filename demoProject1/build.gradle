@@ -20,7 +20,8 @@ configurations {
 repositories {
 	mavenCentral()
 }
-
+//외부 연결된 사이트 mvn에서 아래 작성된 모듈, 라이브러리를 다운 받아서 프로젝트에 자동 추가->project and external dependencies로 추가됨
+//해당 파일 변경 후 프로젝트 우클릭 -> Gradle -> refresh gradel project
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
