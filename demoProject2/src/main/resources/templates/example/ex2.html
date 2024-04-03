@@ -95,5 +95,7 @@
     <!--th:src 속성 : 타임리프를 이용해서 경로를 작성하는 방법
                     (옆에 작성된 값을 이용해서 src 속성 추가하기)-->
     <img th:src="#{user.default.image}" style="width:500px;">
+
+    <th:block th:replace="~{fragments/footer}"></th:block>
 </body>
 </html>

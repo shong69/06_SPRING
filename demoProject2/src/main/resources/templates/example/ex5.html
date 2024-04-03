@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>타임리프 예제5</title>
+    <style>
+        .red{color:red;}
+        .green{color:green;}
+        .deco{text-decoration: underline;}
+    </style>
+</head>
+<body>
+    <h1>타임리프 예제5</h1>
+
+    <h3>th:inline = "javascript" 속성</h3>
+
+    <pre>
+        -script 태그에 작성하는 속성
+        - 타임리프 문법으로 출력된 내용/값을 js에 알맞은 타입으로 변환해줌
+    </pre>
+
+    <h3 id="message"></h3>
+    <h3 id="num1"></h3>
+
+
+    <hr>
+
+    <h3>th:classappend 속성 : 요소에 class 속성 값을 동적으로 추가함</h3>
+
+    <h4 th:classappend="red">th:classappend 테스트중...</h4>
+
+
+    <!--이미 지정된 클래스에 th:classappend로 또 클래스 부여하기-->
+    <h4 class="red" th:classappend="deco">th:classappend 테스트중...</h4>
+
+    <!--삼항연산자를 사용하여 조건부로 클래스 추가하기-->
+    <!--lt : <  |  gt : >-->
+    <!--num1이 10000보다 클 경우 green, 아니면 red-->
+    <h4 th:classappend="${num1 gt 10000} ? green : red">th:classappend 테스트중...</h4>
+
+
+    <!--th:class로 기존 클래스(밑줄을 출력하는) 덮어씌우기-->
+    <h4 class="deco" th:class="${num1 gt 10000} ? green : red">th:classappend 테스트중...</h4>
+
+
+    <hr>
+    <h3>안전 탐색 연산자 : ${객체명?.필드}</h3>
+
+    <pre>
+        - 객체가 null인지 판단 후, null이 아닌 경우에만 수행해줌
+    </pre>
+
+
+    <!--std가 null인 경우 원래는 오류 발생함->안전탐색연산자를 사용하면 오류 발생 X-->
+    <h4 th:text="${member?.memberNo}"></h4> <!-- 에러가 나지는 않지만(?.처리 해줘서) 없는 객체라 출력은 안됨-->
+    <h4 th:text="${std?.studentNo}"></h4> <!--있는 객체니까 실제로 출력됨-->
+
+
+    <hr>
+    <h3>${#numbers.sequence(시작, 끝 [, step])} : 번호 발생기 </h3>
+
+    <pre>
+        - 시작부터 끝까지 번호로만 이루어진 숫자 배열을 생성해줌
+        ex) ${#numbers.sequence(1,5)} =>[1,2,3,4,5] 생성됨
+
+        [왜 사용하냐?]
+        - 타임리프 반복문인 th:each가 향상된 for문 형태라 반복 위치, step 지정이 불가능해서 
+          이를 해결하기 위해 사용함
+    </pre>
+
+    <ul>
+        <!--11부터 시작해서 20까지 2씩 증가하며 반복하기-->
+        <li th:each="i : ${#numbers.sequence(11,20,2)}" th:text="|테스트 ${i}|"></li>
+    </ul>
+
+
+
+    <script th:inline="javascript">
+        //js Inline - natural template을 사용함
+        //스크립트 태그 내부에서 타임리프의 변수나 연산을 사용할 수 있게 함
+        
+        //- HTML 파일을 독립적으로 실행 시 js 내부의 타임리프 코드 오류를 발생하지 않게 한다.
+        // +HTML 문법 오류(컴파일 오류)도 해결해줌
+
+        const message= /*[[${message}]]*/ "message값";
+        const num1 = /*[[${num1}]]*/ 100;
+
+        document.querySelector("#message").innerText = message;
+        document.querySelector("#num1").innerText = num1;
+    </script>
+</body>
+</html>
