@@ -78,7 +78,7 @@ public class DBConfig {
 	
 	@Bean  //properties에서 가져온 내용을 spring이 관리해주도록 함
 	@ConfigurationProperties(prefix="spring.datasource.hikari") 
-	//이 접미사로 시작하는 모든 라인들을 가지고 오겠다. + hikari 객체로 만들어둠
+	//이 접미사로 시작하는 모든 라인들을 가지고 오겠다. + 가지고 온 개체를 hikari 객체로 만들어둠 + Bean으로 등록함
 	public HikariConfig hikariconfig() {
 		
 		return new HikariConfig(); 

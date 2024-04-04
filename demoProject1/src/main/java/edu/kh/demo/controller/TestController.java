@@ -21,6 +21,7 @@ public class TestController {
 	//@RequestMapping("요청주소")
 	// - 요청 주소를 처리할 메서드를 매핑하는 어노테이션
 	
+	
 	// 1) 메서드에 작성했을 때 : 
 	// - 요청 주소와 메서드를 매핑해줌
 	// - GET/POST 가리지 않고 매핑함(속성을 통해서 지정 가능함)
