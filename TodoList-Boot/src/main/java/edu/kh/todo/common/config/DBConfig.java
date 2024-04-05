@@ -103,7 +103,7 @@ public class DBConfig {
 	
 	//////////////////Mybatis 설정 ////////////////////////
 	
-	
+	@Bean
 	public SqlSessionFactory sessionFactory(DataSource dataSource) throws Exception {
 		
 		//sqlsession을 bean으로 만들기 위해 datasource를 매개변수에 넣은거임

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="|${todo.todoNo}번 할 일 수정|"></title>
+</head>
+<body>
+    <h1 th:text="|${todo.todoNo}번 할 일 수정|"></h1>
+
+    <hr>
+
+    <form action="/todo/update" method="post">
+        <div>
+            제목 : <input type="text" name="todoTitle" th:value="${todo.todoTitle}">
+        </div>
+        <div>
+            <textarea name="todoContent"
+                cols="50" rows="5" placeholder="상세내용"
+                th:text="${todo.todoContent}"></textarea> 
+                <!--textarea에는 value가 없으니까 값으로 [[${todo.todoContent}]]쓰거나 th:text로 쓴다-->
+        </div>
+
+        <!--할 일 번호를 숨기기 : 요청 시 name=value 같이 보내줌-->
+        <input type="hidden" name="todoNo" th:value="${param.todoNo}"> 
+        <!--param에도 todo가 실려있기 때문에 한번 써봄-->
+        <button>수정하기</button>
+    </form>
+
+
+
+    <th:block th:replace="~{common/footer}"></th:block>
+</body>
+</html>

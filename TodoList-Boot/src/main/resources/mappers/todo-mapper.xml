@@ -6,4 +6,110 @@
 	
 	<!-- 아래 태그는 mapper.xml 파일 만들자 마자 삭제하기! 오류냄 -->
   <!-- <cache-ref namespace=""/> -->
+  
+  
+  <!-- <select>태그 속성
+  	-id 속성 : 태그를 식별하는 값
+  	(연결된 MApper의 메서드명과 동일하게 작성해서 연결
+  	
+  	-resultType : 조회 결과 한 줄(1행)을 저장하여
+  	 			  반환할 변수/객체 자료형을 저장한다
+  	 			  
+  	 			  조회 결과가 여러 행이면
+  	 			  행별로 변수/객체 자료형으로 저장 후 모아서
+  	 			  List로 저장해준다
+  
+   -->
+  
+  
+  <!-- 
+  edu.kh.todo.model.TodoMapper 인터페이스의 selectAll()메서드와 연결됨
+  ==>selectAll()메서드 호출 시 연결된 SQL 실행
+   -->
+   
+   <!-- edu.kh.todo.model.dto.Todo -> Todo 라고 써도 됨(DBconfig에서 별칭등록 해서) -->
+  <select id="selectAll" resultType="Todo">
+  	SELECT TODO_NO, TODO_TITLE , TODO_CONTENT , COMPLETE ,
+	TO_CHAR(REG_DATE, 'YYYY-MM-DD HH24:MI:SS') REG_DATE 
+	FROM TB_TODO
+	ORDER BY TODO_NO
+  </select>
+  
+  <!-- Java의 int는 마이바티스의 _int -->
+  <select id ="getCompleteCount" resultType="_int">
+  	SELECT COUNT(*)
+  	FROM TB_TODO
+  	WHERE COMPLETE='Y'
+  </select>
+  
+  <!-- 
+  	parameterType : 전달받은 값(전달인자/매개변수)의 타입을 명시
+  	-> DTO, Map인 경우 필드명/key를 입력해서 하나씩 꺼낼 수 있음
+   -->
+   
+   
+   <!-- 
+   		mapper에서 java의 data(파라미터)를 SQL에 삽입하는 방법
+   		
+   		1) #{변수명 | 필드명} : SQL에 삽입 시 양 쪽에 '' 붙여서 삽입
+   		
+   		2) ${변수명 | 필드명} : SQL에 삽입 시 양 쪽에 '' 붙이지 않고 삽입
+   		
+   		-> ${}를 언제 사용할까?
+   		1) 삽입할 값이 숫자인 경우( 숫자 리터럴에 '' 없음)
+   		2) SQL문 자체가 변해야 하는 경우에 사용
+   		
+   		ex) SELECT MEMBER_NAME, ${key} FROM "MEMBER"
+   		
+   		-${key} == ENROLL_DATE인 경우
+   		SELECT MEMBER_NAME, ENROLL_DATE FROM "MEMBER"
+   		
+   		-${key} != ENROLL_DATE인 경우
+   		SELECT MEMBER_NAME, MEMBER_ADDRESS FROM "MEMBER"
+   		
+    -->
+   
+  <!-- 할 일 추가 -->
+  <insert id="addTodo" parameterType="Todo">
+  	INSERT INTO VALUES(
+  	VALUES(SEQ_TODO_NO.NEXTVAL, #{todoTitle}, #{todoContent}. DEFAULT, DEFAULT)
+  </insert>
+  
+  
+  <!-- 할 일 상세 조회 -->
+  <!-- edu.kh.todo.model.dto.Todo -> Todo 라고 써도 됨(DBconfig에서 별칭등록 해서) -->
+  <select id = "todoDetail" parameterType="_int" resultType="Todo">
+  	SELECT TODO_NO, TODO_TITLE , TODO_CONTENT , COMPLETE ,
+	TO_CHAR(REG_DATE, 'YYYY-MM-DD HH24:MI:SS') REG_DATE 
+	FROM TB_TODO
+	WHERE TODO_NO = #{todoNo}
+  </select>
+  
+  
+  <!-- 완료 여부 변경 -->
+  <!-- N혹은 Y이기 때문에 홑따옴표 안붙임 -->
+  <update id="changeComplete" parameterType="Todo">
+  	UPDATE TB_TODO SET
+  	COMPLETE=#{complete}
+  	WHERE TODO_NO = #{todoNo}
+  </update>
+  
+  
+  <!-- 할 일 수정 -->
+  <!-- 								문자  /	  숫자
+  		파라미터가 DTO인 경우 : #{필드명} / ${필드명}
+  	   파라미터가 Map인 경우 : #{key}. ${key} -->
+  <update id="todoUpdate" parameterType="Todo">
+  	UPDATE TB_TODO SET
+  	TODO_TITLE=#{todoTitle},
+  	TODO_CONTENT=#{todoContent}
+  	WHERE TODO_NO=${todoNo}
+  </update>	
+  
+  <delete id="todoDelete" parameterType="_int">
+  	DELETE FROM TB_TODO
+  	WHERE TODO_NO=#{todoNo}
+  </delete>
+  
+  
 </mapper>
