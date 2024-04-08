@@ -71,8 +71,7 @@
    
   <!-- 할 일 추가 -->
   <insert id="addTodo" parameterType="Todo">
-  	INSERT INTO VALUES(
-  	VALUES(SEQ_TODO_NO.NEXTVAL, #{todoTitle}, #{todoContent}. DEFAULT, DEFAULT)
+  	INSERT INTO TB_TODO VALUES(SEQ_TODO_NO.NEXTVAL, #{todoTitle}, #{todoContent}, DEFAULT, DEFAULT)
   </insert>
   
   
@@ -111,5 +110,9 @@
   	WHERE TODO_NO=#{todoNo}
   </delete>
   
-  
+  <!-- 전체 할 일 개수 조회 -->
+  <select id="getTotalCount" resultType="_int">
+  	SELECT COUNT(*)
+  	FROM TB_TODO
+  </select>
 </mapper>
