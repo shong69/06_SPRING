@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -137,5 +138,33 @@ public class AjaxController {
 		
 		return service.todoDelete(todoNo);
 	}
+	
+	
+	//완료 여부를 변경하는 메서드
+	@PutMapping("changeComplete")
+	@ResponseBody //비동기요청한 쪽으로 값 자체를 돌려보내줌
+	public int changeComplete(@RequestBody Todo todo) { //dto를 활용해서 RequestBody의 여러 파라미터 한번에 가져올 수 있다
+		
+		return service.changeComplete(todo); //미리 만들어뒀던 메서드 사용하기
+	}
+	
+	
+	//할 일 수정
+	@PutMapping("update")
+	@ResponseBody
+	public int todoUpdate(@RequestBody Todo todo) {
+		
+		return service.todoUpdate(todo);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

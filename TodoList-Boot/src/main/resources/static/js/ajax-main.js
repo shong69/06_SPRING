@@ -25,6 +25,14 @@ const deleteBtn = document.querySelector("#deleteBtn");
 const updateView = document.querySelector("#updateView");
 const changeComplete = document.querySelector("#changeComplete");
 
+//수정 레이어 버튼
+const updateLayer = document.querySelector("#updateLayer");
+const updateTitle = document.querySelector("#updateTitle");
+const updateContent = document.querySelector("#updateContent");
+const updateBtn = document.querySelector("#updateBtn");
+const updateCancel = document.querySelector("#updateCancel");
+
+
 
 
 //전체 todo 개수를 조회 + 출력하는 함수 정의하기
@@ -169,6 +177,9 @@ const selectTodo = (url)=>{
 
         //popuplayer 보이게 하기
         popupLayer.classList.remove("popup-hidden");
+
+        //만약 updateLayer가 열려있으면 숨기기
+        updateLayer.classList.add('popup-hidden');
     });
 
 
@@ -288,6 +299,137 @@ deleteBtn.addEventListener("click", ()=>{
 });
 
 
+//---------------------------------------------
+//완료 여부 변경 버튼 클릭 시
+changeComplete.addEventListener("click", ()=>{
+
+    //변경할 할 일 번호, 완료 여부 (Y <->N)
+    const todoNo = popupTodoNo.innerText;
+    const complete = popupComplete.innerText==='Y'?'N':'Y';  //Y면 N으로 바꾸고 아니면 반대로 바꾸기
+
+    //SQL 수행에 필요한 값을 JS 객체로 묶기
+    const obj={"todoNo" :todoNo, "complete":complete};
+
+    //비동기로 완료 여부를 변경하기
+    fetch("/ajax/changeComplete",{
+        method:"PUT",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify(obj) //obj라는 객체를 JSON형태로 변경하기(자바 사용 쉽게)
+    })
+    .then(resp => resp.text())
+    .then(result => {
+
+        if(result > 0){
+            //update된 DB데이터를 다시 조회해서 화면에 출력하기
+            //selectTodo();  -> 서버 부하가 큼
+
+            //서버 부하를 줄이기 위해 상세 조회에서 Y/N만 바꾸기
+            popupComplete.innerText=complete;
+
+            //완료여부 개수도 바꾸기 -> 서버 부하 줄이기 위해 +-1씩만 바꾸도록 하기
+            //getCompleteCount();
+            const count = Number(completeCount.innerText); //js 숫자 number로 형변환해주기
+
+            if(complete === 'Y') completeCount.innerText = count + 1;
+            else                 completeCount.innerText = count - 1;
+
+            //서버 부하 줄이기 가능하지만 코드가 조금 복잡하니까 걍 다시 조회하기
+            selectTodoList();
+        }else{
+            alert("완료 여부 변경 실패!!");
+        }
+    });
+
+
+
+});
+
+
+//------------------------------------------------
+//상세조회에서 수정 버튼 (#updateView) 클릭 시 
+updateView.addEventListener("click", ()=>{
+    //기존 팝업레이어를 숨기기
+    popupLayer.classList.add('popup-hidden');
+
+    //수정레이어 보이게
+    updateLayer.classList.remove('popup-hidden');
+
+    //수정 버튼 누른 상태에서 상세조회버튼도 또 누른 경우 둘 다 겹쳐서 뜨게 됨
+    //상세조회 기능에서 끄도록 설정하기
+
+    //수정레이어 보일 때 
+    //팝업레이어에 작성된 제목, 내용을 얻어와 세팅하기
+    updateTitle.value = popupTodoTitle.innerText;
+    updateContent.value = popupTodoContent.innerHTML.replaceAll("<br>", "\n"); //value말고 innerText로 적용해도 됨
+    //br태그를 줄넘김으로 바꾸도록
+    //html에서는 줄바꿈이 <br>로 인식되는데, textarea로 넘어오며 \n로 적용해야 줄바꿈으로 인식된다.
+    
+    //수정 레이어 -> 수정 버튼에 data-todo-no 속성 추가하기
+    updateBtn.setAttribute("data-todo-no", popupTodoNo.innerText);
+});
+
+//----------------------------------------------------------
+//수정레이어에서 취소 버튼(#updateCancel)을 눌렀을 때
+updateCancel.addEventListener("click", ()=>{
+    //수정 레이어 숨기기
+    updateLayer.classList.add("popup-hidden");
+
+    //상세 팝업 레이어 보이기
+    popupLayer.classList.remove("popup-hidden");
+});
+
+
+
+//----------------------------------------------------------
+updateBtn.addEventListener("click", e=>{
+    
+    //서버로 전달해야 하는 값을 객체로 묶어둠
+    const obj={
+        "todoNo" : e.target.dataset.todoNo,
+        "todoTitle" : updateTitle.value, 
+        "todoContent" : updateContent.value
+    };
+    //비동기 요청
+    fetch("/ajax/update", {
+        method:"PUT",
+        headers:{"Content-Type" : "application/json"},
+        body : JSON.stringify(obj)
+    })
+    .then(resp => resp.text())
+    .then(result => {
+        if(result > 0){
+            alert("수정 성공!!");
+
+            //수정 레이어 숨기기
+            updateLayer.classList.add('popup-hidden');
+
+            //목록 다시 조회하기
+            selectTodoList();
+
+            popupTodoTitle.innerText = updateTitle.value;
+            popupTodoContent.innerHTML =    //innerHtml : 줄바꿈 br 태그 인식하기 위해
+                    updateContent.value.replaceAll("\n", "<br>"); 
+
+            popupLayer.classList.remove("popup-hidden");
+
+            //수정 레이어에 있는 남은 흔적 제거하기
+            updateTitle.value="";
+            updateContent.value="";
+            updateBtn.removeAttribute("data-todo-no"); //속성 제거
+
+        }else{
+            alert("수정 실패!!");
+        }
+    });
+});
+
+
+
+
+
+
+
+//페이지 새로고침 시 불러오기
 selectTodoList();
 getcompleteCount(); 
 getTotalCount();  //함수 호출 -> 페이지 로드 될 때도 불러오도록 놔두기
