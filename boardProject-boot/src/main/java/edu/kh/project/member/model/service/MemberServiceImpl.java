@@ -62,7 +62,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	
-	/* Bcrypt 암호화 (Srpng Security 제공)
+	/* Bcrypt 암호화 (Spring Security 제공)
 	 * 
 	 * - 입력된 문자열(비번)에가다가 salt 추가 후 암호화
 	 * - A 회원 : 1234 -> $12!asdfg

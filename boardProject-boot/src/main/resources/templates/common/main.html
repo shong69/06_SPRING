@@ -20,8 +20,11 @@
       <section class="content-1"></section>
 
       <section class="content-2">
-        <!-- 로그인, 회원가입 버튼 -->
 
+
+        <!-- 로그인, 회원가입 버튼 -->
+		    <!-- 로그인 안됐을 때-->
+        <th:block th:if="${session.loginMember == null}">
           <!-- 로그인 박스 -->
           <form action="/member/login" method="POST" id="loginForm">
             <fieldset class="id-pw-area">
@@ -58,7 +61,45 @@
             </article>
   
           </form>
+        </th:block>
+          
 
+
+        <!--로그인 됐을 때-->
+       
+        <th:block th:if="${session.loginMember != null}">
+
+          <article class="login-area">
+
+            <a href="/myPage/profile">
+              <!--messages.properties에 작성된 기본 사용자 이미지-->
+              <img th:with="user=#{user.default.image}"
+                   th:src="${session.loginMember.profileImg ?:user}"
+                   id="memberProfile"
+                   alt="프로필 이미지"> <!--img 태그의 alt 속성 : 이미지 보여 줄 수 없을때 대체 텍스트--> 
+              
+              <!--user가 이미지를 바꾸면(user가 등록한 이미지가 있다면, null이 아니라면) 
+                    설정한 이미지 경로에(message.properties에 등록함) 있는 이미지를 
+                    session.loginMember.profileImg에 넣을 것이다. 
+                    등록한 이미지가 없다면 user라는 변수를 쓰겠다user(/images/user.png)
+              -->
+
+            </a>
+
+            <!-- 닉네임, 이메일, 로그아웃 버튼 영역-->
+            <div class="my-info" th:object="${session.loginMember}">
+              <!--th:object 선언했으니까 loginMember의 하위에서 필드명만 적어서 사용 가능하다-->
+              <div>
+                <a href="/myPage/info" id="nickname" th:text="*{memberNickname}">닉네임</a>
+                <a href="/member/logout" id="logoutBtn">로그아웃</a>
+              </div>
+
+              <p th:text="*{memberEmail}">이메일</p>
+            </div>
+          </article>
+
+        </th:block>
+          
       </section>
 
     </section>
