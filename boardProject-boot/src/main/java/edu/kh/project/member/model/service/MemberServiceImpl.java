@@ -60,6 +60,69 @@ public class MemberServiceImpl implements MemberService {
 
 		return loginMember;
 	}
+
+
+	//이메일 중복 검사
+	@Override
+	public int checkEmail(String memberEmail) {
+		
+		return mapper.checkEmail(memberEmail);
+	}
+
+
+	//닉네임 중복 검사
+	@Override
+	public int checkNickname(String memberNickname) {
+		return mapper.checkNickname(memberNickname);
+	}
+
+
+	//회원 가입 서비스
+	@Override
+	public int signup(Member inputMember, String[] memberAddress) {
+		
+		//주소가 입력되지 않으면
+		// inputMember.getMemberAddress() -> ",,"(도로명 주소, 상세주소)
+		// memberAddress -> [,,]
+		
+		
+	
+		//주소가 입력된 경우
+		if(!inputMember.getMemberAddress().equals("")) {
+			String address= String.join("^^^",memberAddress);
+			
+			//String.join("구분자" , 배열)
+			/// -> 배열의 모든 요소 사이에 '구분자'를 추가하여 하나의 문자열을 만들어 반환하는 메서드
+			
+			//구분자로 "^^^"를 쓴 이유 : 
+			//-> 주소, 상세주소에 없는 특수문자 작성
+			//->나중에 다시 3분할 할 때 구분자로 이용할 예정
+			
+			
+			//inputMember  주소로 합쳐진 주소를 세팅
+			inputMember.setMemberAddress(address);
+		}else{ //주소 입력 안된 경우
+			inputMember.setMemberAddress(null); //null 저장
+			
+		}
+		
+		// 이메일, 비밀번호(pass02!), 닉네임, 전화번호, 주소
+		// 비밀번호를 암호화하여 inputMember에 세팅하기
+		String encPw = bcrypt.encode(inputMember.getMemberPw());
+		
+		inputMember.setMemberPw(encPw);
+		
+		//회원가입 mapper 메서드 호출하기
+		
+		
+		
+		
+		
+		
+		
+		
+		return mapper.signup(inputMember);
+	}
 	
 	
 	/* Bcrypt 암호화 (Spring Security 제공)

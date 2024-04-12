@@ -138,6 +138,11 @@ public class MemberController {
 		return "member/signup";
 	}
 	
+	
+	/** 이메일 중복 검사
+	 * @param memberEmail
+	 * @return
+	 */
 	@ResponseBody //응답 본문으로 요청 fetch로 돌려보내주기
 	@GetMapping("checkEmail")
 	public int checkEmail(@RequestParam("memberEmail") String memberEmail) {
@@ -146,6 +151,56 @@ public class MemberController {
 	}
 	
 	
+	/**닉네임 중복 검사
+	 * @param memberNickname
+	 * @return 중복되면 1, 아니면 0
+	 */
+	@ResponseBody //비동기 요청한 쪽으로 돌아간다
+	@GetMapping("checkNickname")
+	public int checkNickname(@RequestParam("memberNickname") String memberNickname) {
+		
+		return service.checkNickname(memberNickname);
+	}
 	
+	
+	/** 회원가입
+	 * @param inputMember : 입력된 회원정보(memberEmail, memberPw,
+	 * 		memberNickname, memberTel,(memberAddress->따로 받아서 처리)
+	 * @param memberAddress 입력한 주소 input 3개의 값을 배열로 전달[우편번호, 도로명/지번주소, 상세주소]
+	 * @param ra : 리다이렉트 시 request scope로 데이터 전달하는객체
+	 * @return 
+	 */
+	@PostMapping("signup")
+	public String signup(Member inputMember,
+		@RequestParam("memberAddress") String[] memberAddress,
+		RedirectAttributes ra) {
+		
+		//회원 가입 서비스 호출
+		int  result = service.signup(inputMember, memberAddress);
+		
+		
+		String path = null;
+		String message = null;
+		
+		
+		
+		
+		if(result>0) { //회원가입 성공
+			
+			message = inputMember.getMemberNickname() + "님의 가입을 환영합니다. :)";
+			path="/";
+			
+		}else { //회원가입 실패
+			
+			message = "회원 가입 실패..";
+			path="signup";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		
+		return "redirect:" + path;
+		
+	}
 	
 }
