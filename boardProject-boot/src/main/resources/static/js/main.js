@@ -26,7 +26,7 @@ const getCookie = (key)=>{
         obj[k]=v; //객체에 추가하기
     } //{saveId: 'user01@kh.or.kr', test: '유저일'}
 
-    return obj[key]; //매개변수 key에 해당하는 value를 obj에서 반환해준다
+    return obj[key]; //함수 getCookie는 매개변수 key에 해당하는 value를 obj에서 반환해준다
 }
 //console.log(getCookie("NoId")); 없는 id 검색 시 undefined 나옴
 

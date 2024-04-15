@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
  * */
 
 
-@SessionAttributes({"loginMember"})
+@SessionAttributes({"loginMember"}) //loginMember 모델 속성을 세션에서 유지해준다
 @Controller
 @Slf4j
 @RequestMapping("member")
@@ -181,10 +181,7 @@ public class MemberController {
 		
 		String path = null;
 		String message = null;
-		
-		
-		
-		
+
 		if(result>0) { //회원가입 성공
 			
 			message = inputMember.getMemberNickname() + "님의 가입을 환영합니다. :)";

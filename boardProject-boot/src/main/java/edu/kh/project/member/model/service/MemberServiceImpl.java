@@ -88,7 +88,7 @@ public class MemberServiceImpl implements MemberService {
 		
 	
 		//주소가 입력된 경우
-		if(!inputMember.getMemberAddress().equals("")) {
+		if(!inputMember.getMemberAddress().equals(",,")) {
 			String address= String.join("^^^",memberAddress);
 			
 			//String.join("구분자" , 배열)

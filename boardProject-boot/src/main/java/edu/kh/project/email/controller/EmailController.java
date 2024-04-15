@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequestMapping("email")
-@RequiredArgsConstructor //final필드/@NotNull 필드에 자동으로 의존성 주입 (@Autowired 생성자 방식 코드 자동 완성)
+@RequiredArgsConstructor //final필드이나 @NotNull 필드에 자동으로 의존성 주입 (@Autowired 생성자 방식 코드 자동 완성)
 public class EmailController {
 	
 	
@@ -62,7 +62,7 @@ public class EmailController {
  * 
  * 필드 중
  * 1) 초기화 되지 않는 final이 붙은 필드
- * 2) c초기화 되지 않은 @NotNull이 붙은 필드
+ * 2) 초기화 되지 않은 @NotNull이 붙은 필드
  * 
  * 1,2에 해당하는 필드에 대한 
  * @Autowired 생성자 구문을 자동 완성
@@ -77,7 +77,7 @@ public class EmailController {
 //@Autowired //의존성 주입DI
 //private EmailService service;
 
-//2)setter 이용
+//2)setter에 의존성을 주입
 //private EmailService service;
 
 //Autowired
@@ -85,7 +85,7 @@ public class EmailController {
 // this.service = service;
 //}
 
-//3) 생성자
+//3) 생성자에 의존성 주입
 // private EmailService service;
 // private MemberService service2;
 

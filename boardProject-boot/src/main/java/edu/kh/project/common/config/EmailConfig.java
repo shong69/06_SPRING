@@ -10,7 +10,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 @Configuration
-@PropertySource("classpath:/config.properties")
+@PropertySource("classpath:/config.properties") //SMTP에 필요한 정보 적혀있음
 public class EmailConfig {
 
 	//@Value : properties에 작성된 내용 중 키가 일치하는 값을 얻어와 필드에 대입 

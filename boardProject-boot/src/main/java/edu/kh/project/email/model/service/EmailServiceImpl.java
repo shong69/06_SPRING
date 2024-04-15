@@ -34,7 +34,7 @@ public class EmailServiceImpl implements EmailService{
 	@Override
 	public String sendEmail(String htmlName, String email) {
 		
-		//6자리 난수(인증코드) 생성
+		//6자리 난수(인증코드) 생성 메서드 호출
 		String authKey = createAuthKey();
 		
 		try {
@@ -137,20 +137,15 @@ public class EmailServiceImpl implements EmailService{
    public String createAuthKey() {
    	String key = "";
        for(int i=0 ; i< 6 ; i++) {
-          
            int sel1 = (int)(Math.random() * 3); // 0:숫자 / 1,2:영어
           
            if(sel1 == 0) {
-              
                int num = (int)(Math.random() * 10); // 0~9
                key += num;
               
            }else {
-              
                char ch = (char)(Math.random() * 26 + 65); // A~Z
-              
-               int sel2 = (int)(Math.random() * 2); // 0:소문자 / 1:대문자
-              
+               int sel2 = (int)(Math.random() * 2); // 0:소문자 / 1:대문자             
                if(sel2 == 0) {
                    ch = (char)(ch + ('a' - 'A')); // 대문자로 변경
                }
@@ -186,9 +181,9 @@ public class EmailServiceImpl implements EmailService{
  * 
  * Java Mail Sender -> Google STMP -> 대상에게 이메일 전송
  * 
- * - Java Mail Sender에 Google SMTP 이용 설정 추가
+ * - Java Mail Sender에 Google SMTP 이용 설정 추가해야함
  * 1) config.properties에 내용 추가(계정, 앱비밀번호)
- * 2) EmailConfig.java
+ * 2) EmailConfig.java (자바 메일 센더에 대한 설정)
  * 
  * 
  * 

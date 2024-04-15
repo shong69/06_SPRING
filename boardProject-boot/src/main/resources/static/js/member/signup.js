@@ -110,8 +110,8 @@ memberEmail.addEventListener("input",e =>{
 
         //중복 X인 경우
          emailMessage.innerText="사용 가능한 이메일 입니다.";
-         emailMessage.classList.remove('confirm');
-         emailMessage.classList.add('error');
+         emailMessage.classList.remove('error');
+         emailMessage.classList.add('confirm');
          checkObj.memberEmail=true; //유효한 이메일
     })
     .catch(error=>{
@@ -150,8 +150,11 @@ let sec= intitSec;
 
 //인증번호 받기 버튼 클릭 시
 sendAuthKeyBtn.addEventListener("click",()=>{
-    checkObj.authKey = false;
-    authKeyMessage = "";
+
+    //인증하기 재클릭했을 경우 값 초기화해주는 코드
+    checkObj.authKey = false; 
+    authKeyMessage.innerText = "";
+
     //중복되지 않은 유효한 이메일을 입력한 경우가 아니면
     if(!checkObj.memberEmail){
         alert("유효한 이메일 작성 후 클릭해 주세요");
@@ -218,6 +221,8 @@ sendAuthKeyBtn.addEventListener("click",()=>{
             sec= 60;
             min--;
         }
+
+        //평상시에는 1초씩 감소
         sec--; //1초 감소
 
     }, 1000); //1초 지연시간
