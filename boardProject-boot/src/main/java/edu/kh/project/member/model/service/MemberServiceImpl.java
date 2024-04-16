@@ -1,5 +1,9 @@
 package edu.kh.project.member.model.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -38,7 +42,7 @@ public class MemberServiceImpl implements MemberService {
 		//log.debug("bcryptPassword : "+bcryptPassword);
 		
 		//boolean result = bcrypt.matches(inputMember.getMemberPw(), bcryptPassword);
-		//log.debug("result : "+result);
+
 		
 		//1. 이메일이 일치하면서 탈퇴하지 않은 회원 조회
 		Member loginMember = mapper.login(inputMember.getMemberEmail());
@@ -60,6 +64,7 @@ public class MemberServiceImpl implements MemberService {
 
 		return loginMember;
 	}
+
 
 
 	//이메일 중복 검사
@@ -123,6 +128,60 @@ public class MemberServiceImpl implements MemberService {
 		
 		return mapper.signup(inputMember);
 	}
+
+
+	//빠른 로그인
+	// -> 일반 로그인에서 비밀번호 비교만 제외함
+	@Override
+	public Member quickLogin(String memberEmail) {
+		
+		Member loginMember = mapper.login(memberEmail);
+		
+		if(loginMember== null) {
+			return null;
+		}
+		//조회된 로그인 멤버의 암호화비밀번호를 null로 변경하기
+		loginMember.setMemberPw(null);
+		
+		return loginMember;
+	}
+
+
+
+	//회원 목록 조회
+	@Override
+	public List<Member> memberList() {
+		List<Member> memberList = mapper.memberList();
+		
+		if(memberList==null) {
+			return null;
+		}
+		return memberList;
+	}
+
+
+
+	//비밀번호 초기화
+	@Override
+	public int resetPw(String memberNo) {
+		
+		String memberPw = bcrypt.encode("pass01!");
+		Map<String, String> map = new HashMap<>();
+		map.put("memberNo", memberNo);
+		map.put("memberPw", memberPw);
+		return mapper.resetPw(map);
+	}
+
+
+	//탈퇴 복구
+	@Override
+	public int restoreMember(String memberNo) {
+		
+		
+		//복구한 경우 1
+		//아닌 경우 0 -> 탈퇴 안 한 경우+없는 멤버 넘버인 경우
+		return mapper.restoreMember(memberNo);
+	}
 	
 	
 	/* Bcrypt 암호화 (Spring Security 제공)
@@ -147,7 +206,6 @@ public class MemberServiceImpl implements MemberService {
 	 * 	 B 회원 : 1234 -> $abcd (암호화 시 변경된 내용이 같음)
 	 * 
 	 * */
-	
-	
+
 	
 }

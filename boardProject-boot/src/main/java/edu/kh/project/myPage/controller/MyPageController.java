@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.kh.project.member.model.dto.Member;
@@ -218,6 +219,76 @@ public class MyPageController {
 		
 		return "redirect:" + path;
 	}
+	
+	
+	//----------------------------------------------------------------
+	
+	/*파일 업로드 테스트*/
+	
+	@GetMapping("fileTest")
+	public String fileTest() {		
+		return"myPage/myPage-fileTest";
+	}
+	
+	
+	/* SPRING(서버단)에서 파일 업로드를 처리하는 방법
+	 * 
+	 * - enctype = "multipart/form-data"로 클라이언트 요청 시 
+	 * 	 (문자, 숫자, 파일 등이 섞여있는 요청일때)
+	 * 	 이를 MultipartResolver(FileConfig에 정의함)를 이용해서 섞여있는 파라미터를 분리해야 한다
+	 * 
+	 * 문자열/숫자 -> String으로 분리
+	 * 파일 	   -> MultipartFile로 분리
+	 * 
+	 * */
+	
+	
+	/**
+	 * @param uploadFile : 업로드한 파일 + 파일에 대한 내용 및 설정 내용
+	 * @return
+	 */
+	@PostMapping("file/test1")
+	public String fileUpload1(//@RequestParam("memberName") String memberName,
+							  @RequestParam("uploadFile") MultipartFile uploadFile,
+							  RedirectAttributes ra) {
+		
+		String path;
+		try {
+			path = service.fileUpload1(uploadFile);
+			
+
+			//파일이 저장돼서 웹에서 접근할 수 있는 경로가 반환되었을 때(null이 아닐때)
+			if(path != null) {
+				ra.addFlashAttribute("path", path);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		
+		return "redirect:/myPage/fileTest";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

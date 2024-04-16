@@ -1,5 +1,7 @@
 package edu.kh.project.member.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -111,6 +113,62 @@ public class MemberController {
 	
 	
 	
+	
+	/** 빠른 로그인 버튼
+	 * @param memberEmail
+	 * @param ra
+	 * @param model
+	 * @return redirect:/
+	 */
+	@GetMapping("quickLogin")
+	public String shortcut(@RequestParam("memberEmail") String memberEmail,
+						RedirectAttributes ra,
+						Model model) {
+	
+		Member loginMember = service.quickLogin(memberEmail);
+		
+		if(loginMember == null) {
+			ra.addFlashAttribute("message", "해당 이메일이 존재하지 않습니다.");
+			
+		}else {
+			model.addAttribute("loginMember", loginMember);
+		}
+		
+		return "redirect:/";
+		
+	}
+	
+	
+	/** 회원 목록 조회
+	 * @param ra
+	 * @return memberList
+	 */
+	@ResponseBody
+	@GetMapping("memberList")
+	public List<Member> memberList(RedirectAttributes ra) {
+		
+		List<Member> memberList = service.memberList();
+		
+		if(memberList==null) {
+			ra.addFlashAttribute("message", "멤버가 존재하지 않습니다.");
+			return null;
+		}
+			
+		
+		//HttpMessageConverter가 JSONArray로(문자열)로 자동 변경 가능하기 때문에
+		//List<Member>선언을 하지 않아도 된다.
+		
+		
+		return memberList;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	/** 로그아웃 : Session에 저장된 로그인된 회원의 정보를 없애는 것(만료/무효화 등)
 	 * 
 	 * @param SessionStatus : 세션을 완료(없앰) 시키는 역할의 객체
@@ -199,5 +257,28 @@ public class MemberController {
 		return "redirect:" + path;
 		
 	}
+	
+	/** 특정회원 비밀번호 초기화
+	 * @param memberNo
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("resetPw")
+	public int resetPw(@RequestParam("memberNo") String memberNo) {
+		
+		return service.resetPw(memberNo);
+	}
+	
+	/** 특정회원 탈퇴 복구
+	 * @param memberNo
+	 * @return
+	 */
+	@GetMapping
+	@ResponseBody
+	public int restoreMember(@RequestParam("memberNo") String memberNo) {
+		
+		return service.restoreMember(memberNo);
+	}
+
 	
 }

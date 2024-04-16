@@ -53,10 +53,28 @@
 
         </pre>
 
-     	
-        
+        <form action="/myPage/file/test1" 
+              method="POST"
+              enctype="multipart/form-data"
+        >     <!--input 타입이 file인 경우 이진데이터 형식으로 보내줘야 
+                  서버에서 사용이 가능하기 때문에 
+                  각 타입에 맞게 사용이 가능한 multipart/form-data를 사용해야 한다-->
+          <h3>업로드 테스트1</h3>
+          <!--type="file"도 결국 parameter로 넘어가기 때문에
+            ->@RequestParam으로 처리가 가능하다
+            ==>name 속성이 필요하다!  
+          -->
+          <input type="file" name="uploadFile">
+          <button class="myPage-submit">제출하기</button>
+        </form>
 
-
+        <!--a태그의 download 속성
+          - href 속성에 작성된 요청에 대한 응답을 다운로드해준다
+        -->
+        <a th:if="${path != null}"
+            th:text="${path}"
+            th:href="${path}"
+            download>업로드한 파일</a>
       </section>
 
     </section>
