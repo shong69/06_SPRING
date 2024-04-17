@@ -43,16 +43,42 @@ public class FileConfig implements WebMvcConfigurer{
 	@Value("${spring.servlet.multipart.location}")
 	private String location;
 
+	//---------------------------------------------
+	//프로필 이미지
+	
+	@Value("${my.profile.resource-handler}")
+	private String profileResourceHandler;
+	
+	@Value("${my.profile.resource-location}")
+	private String profileResourceLocation;
+
 	
 	
 	//요청 주소에 따라 서버컴퓨터의 어떤 경로에 접근할 지 설정해준다
+	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		
+		
 		registry.addResourceHandler("/myPage/file/**") //클라이언트의 요청 주소 패턴 
 		.addResourceLocations("file:///C:/uploadFiles/test/");
 		
 		//클라이언트가 첫번째 경로 이하의 모든 패턴으로 이미지를 요청할 때
 		//서버에서는 요청을 연결해서 처리해줄 서버 폴더 경로를 연결해준 것이다.
+		
+		
+		//프로필 이미지 요청 -> 서버 폴더로 연결해준다
+		registry
+		.addResourceHandler(profileResourceHandler)   //   /myPage/profile/** 로 시작하는 모든 이미지는
+		.addResourceLocations(profileResourceLocation);   //   file:///C:/uploadFiles/profile/ 에다가 넣어주겠다
+		
+		
+		// file"///C: -> 파일 시스템의 루트 디렉토리(최상위 경로)이다
+		// file:// 은 URL 스킴(Scheme), 파일 시스템의 리소스
+		//  /C:는 windows 시스템에서 C드라이브를 가리킴
+		// file"///C: -> C드라이브의 루트 디렉토리를 의미함
+		
+		
 		
 	}
 	
