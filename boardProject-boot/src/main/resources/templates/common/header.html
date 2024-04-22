@@ -46,14 +46,11 @@
   <!-- navigator -->
   <nav>
     <ul>
-      <li>
-        <a href="#">공지사항</a>
-      </li>
-      <li>
-        <a href="#">자유 게시판</a>
-      </li>
-      <li>
-        <a href="#">질문 게시판</a>
-      </li>
+      <th:block th:each="boardType : ${application.boardTypeList}">
+        <li>
+          <a th:href="@{/board/{boardCode}(boardCode=${boardType.boardCode})}" th:text="${boardType.boardName}">게시판 이름</a>
+        </li>
+
+      </th:block>
     </ul>
   </nav>
