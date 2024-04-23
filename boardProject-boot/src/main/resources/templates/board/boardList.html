@@ -15,9 +15,8 @@
 			<th:block th:each="boardType : ${application.boardTypeList}">
 				
 				<h1 class="board-name"
-					th:if="${boardType.boardCode} == ${boardCode}"
-					th:text="${boardType.boardName}"
-				>게시판 이름</h1>
+					th:if="${boardType.boardCode} == ${boardCode}" 
+					th:text="${boardType.boardName}">게시판 이름</h1><!-- ${boardCode}->pathvariable과 비교-->
 				
 			</th:block>
 			<div class="list-wrapper">
@@ -53,9 +52,9 @@
 								
 								<td>
 									<!-- 썸네일 추가 예정 -->
-	
-									<a th:text="*{boardTitle}">게시글 제목</a>
-		
+																			<!--boardCode $로 추가-->	<!--object 선언한board의 필드-->
+									<a th:href="@{/board/{boardCode}/{boardNo} (boardCode= ${boardCode}, boardNo=*{boardNo},cp=${pagination.currentPage})}" th:text="*{boardTitle}">게시글 제목</a>
+																										<!--목록으로 돌아가기 기능을 위해 cp를 쿼리스트링으로 보냄(pagination객체 안의 변수)-->
 									<th:block th:text="|[*{commentCount}]|">댓글 수</th:block>
 								</td>
 	

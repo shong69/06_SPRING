@@ -52,6 +52,15 @@ public class FileConfig implements WebMvcConfigurer{
 	@Value("${my.profile.resource-location}")
 	private String profileResourceLocation;
 
+	//---------------------------------------------
+	//게시판 이미지
+	@Value("${my.board.resource-handler}")
+	private String boardResourceHandler; //요청주소
+	
+	@Value("${my.board.resource-location}")
+	private String boardResourceLocation;  //연결될 서버 폴더 경로
+	
+	
 	
 	
 	//요청 주소에 따라 서버컴퓨터의 어떤 경로에 접근할 지 설정해준다
@@ -60,7 +69,8 @@ public class FileConfig implements WebMvcConfigurer{
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		
 		
-		registry.addResourceHandler("/myPage/file/**") //클라이언트의 요청 주소 패턴 
+		registry
+		.addResourceHandler("/myPage/file/**") //클라이언트의 요청 주소 패턴 
 		.addResourceLocations("file:///C:/uploadFiles/test/");
 		
 		//클라이언트가 첫번째 경로 이하의 모든 패턴으로 이미지를 요청할 때
@@ -78,6 +88,12 @@ public class FileConfig implements WebMvcConfigurer{
 		//  /C:는 windows 시스템에서 C드라이브를 가리킴
 		// file"///C: -> C드라이브의 루트 디렉토리를 의미함
 		
+		
+		//게시글 이미지 요청 - 서버 폴더 연결 추가
+		registry
+		.addResourceHandler(boardResourceHandler)
+		.addResourceLocations(boardResourceLocation);  // 이 둘이 연결돼서 등록됨
+		//->클라이언트가 요청 시 무조건 해당 폴더로 연결되서 하위의 이미지를 찾을 수 있게 된다
 		
 		
 	}
