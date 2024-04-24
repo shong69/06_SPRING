@@ -49,7 +49,9 @@
                         
                         <!-- 비동기로 좋아요 누를 때 동작 (4/22 월요일 예정) -->
                         <!-- 좋아요 누른적이 있으면 fa-solid, 없으면 fa-regular 클래스 추가 -->
-                        <i class="fa-heart fa-regular" id="boardLike"></i>
+                        <i class="fa-heart" id="boardLike"
+                            th:classappend="*{likeCheck == 1} ? fa-solid:fa-regular"
+                        ></i>
 
                         <!-- 좋아요 개수 -->
                         <span th:text="*{likeCount}">0</span>
@@ -150,6 +152,17 @@
     <th:block th:replace="~{common/footer}"></th:block>
 
 
+    <script th:inline="javascript">
+        //안전 탐색 연산자(loginMember가 없으면 null 반환)
+        const loginMemberNo = /*[[${session.loginMember?.memberNo}]]*/ "로그인 회원 번호"; 
     
+        //현재 게시글 번호를 전역변수로 저장하기
+        const boardNo = /*[[${board.boardNo}]]*/ "게시글 번호";
+
+        //현재 게시글 좋아요 여부를 전역변수로 저장하기
+        let likeCheck= /*[[${board.likeCheck}]]*/ "좋아요 여부";
+        //상수로 만들어서 값 변형 되도록
+    </script>
+    <script src="/js/board/boardDetail.js"></script>
 </body>
 </html>
