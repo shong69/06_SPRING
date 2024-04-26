@@ -67,5 +67,28 @@ boardLike.addEventListener("click",e=>{
 
 
 
+//-------------- 게시글 수정 버튼 --------------------
+const updateBtn = document.querySelector("#updateBtn");
+
+//updateBtn이 화면상에 존재할 때 ( 없을 때도 이벤트 리스너 존재 시 오류 남)
+if(updateBtn != null){
+    updateBtn.addEventListener("click",e=>{
+        //GET 방식
+        //현재 : /board/1/2001?cp=1
+        //목표 : /editBoard/1/2001/update?cp=1
+
+        // editBoard로 바꾸고, /update 가 붙어야 함
+        location.href = location.pathname.replace('board', 'editBoard')
+                        + "/update"
+                        +location.search; //쿼리스트링 시작부분을 찾아서 그 자리에 붙여줌
+        //현재 경로 중 "board"가 있으면 "editBoard"로 변경
+
+
+
+
+
+
+    });
+}
 
 
