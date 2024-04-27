@@ -28,6 +28,9 @@ local.properties
 .loadpath
 .recommenders
 
+#ignore properties file
+config.properties
+
 # External tool builders
 .externalToolBuilders/
 
