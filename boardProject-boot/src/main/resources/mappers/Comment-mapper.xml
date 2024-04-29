@@ -20,4 +20,30 @@
 	ORDER SIBLINGS BY COMMENT_NO
 	</select>
 	
+	
+	<!-- 
+		동덕 SQL : <if>
+			- else 문 없음
+			- test 속성 : 조건식을 작성하는 속성
+	-->
+	
+	
+	
+	<!--댓글, 답글 등록-->
+	<insert id="insert">
+		INSERT INTO "COMMENT"
+		VALUES( SEQ_COMMENT_NO.NEXTVAL, #{commentContent},
+			DEFAULT, DEFAULT, #{boardNo}, #{memberNo},
+			
+			<!--자식 댓글-->
+			<if test="parentConnemtNo != 0">
+				#{parentCommentNo}
+			</if>
+			
+			<!--부모 댓글-->
+			<if test="parrentCommentNo == 0">
+				NULL
+			</if>
+			)
+	</insert>
 </mapper>
