@@ -14,7 +14,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import jakarta.servlet.MultipartConfigElement;
 
 
-
 @Configuration
 @PropertySource("classpath:/config.properties") //외부 파일의 설정을 이용하겠다
 public class FileConfig implements WebMvcConfigurer{

@@ -26,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 @Transactional(rollbackFor = Exception.class)
-@PropertySource("classpath:/congfig.properties")  // PropertySource: properties파일을 사용할 수 있게 해줌
+@PropertySource("classpath:/config.properties")  // PropertySource: properties파일을 사용할 수 있게 해줌
 public class EditBoardServiceImpl implements EditBoardService{
 	
 	private final EditBoardMapper mapper;
