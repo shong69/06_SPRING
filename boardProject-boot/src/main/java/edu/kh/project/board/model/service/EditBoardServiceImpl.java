@@ -134,7 +134,7 @@ public class EditBoardServiceImpl implements EditBoardService{
 		int result  = mapper.boardUpdate(inputBoard);
 		
 		//수정 실패 시 return 
-		if(result ==0) {
+		if(result == 0) {
 			return 0;
 		}
 		//---------------------------------------------------

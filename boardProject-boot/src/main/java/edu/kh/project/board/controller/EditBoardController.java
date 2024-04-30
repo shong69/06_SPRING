@@ -137,7 +137,7 @@ public class EditBoardController {
 		
 		Map<String, Integer> map = new HashMap<>();
 		
-		map.put("baordCode", boardCode);
+		map.put("boardCode", boardCode);
 		map.put("boardNo", boardNo);
 		
 		//BoardService.selectOne(map) 호출 ->반환값 Board
@@ -146,7 +146,7 @@ public class EditBoardController {
 		String message = null;
 		String path = null;
 		
-		if(board == null) {
+		if(board == null) {  ///에러남
 			message = "해당 게시글이 존재하지 않습니다";
 			path = "redirect:/"; //메인페이지로 보내기
 			ra.addFlashAttribute("message", message);
@@ -155,7 +155,7 @@ public class EditBoardController {
 			message = "자신이 작성한 글만 수정할 수 있습니다!";
 			
 			//해당 글 상세조회 화면으로 리다이렉트
-			path = String.format("redirect:/baord/%d/%d", boardCode, boardNo); //fString처럼 형식에 맞게 값 삽입 가능
+			path = String.format("redirect:/board/%d/%d", boardCode, boardNo); //fString처럼 형식에 맞게 값 삽입 가능
 			
 			ra.addFlashAttribute("message", message);
 		}else { //나머지 경우 -> 맞게 들어온 경우
@@ -183,8 +183,8 @@ public class EditBoardController {
 	 */
 	@PostMapping("{boardCode:[0-9]+}/{boardNo:[0-9]+}/update")
 	public String boardUpdate(
-				@PathVariable("${boardCode}") int boardCode,
-				@PathVariable("${boardNo}") int boarNo,
+				@PathVariable("boardCode") int boardCode,
+				@PathVariable("boardNo") int boarNo,
 				@ModelAttribute Board inputBoard, //커맨드 객체
 				@SessionAttribute("loginMember") Member loginMember,
 				@RequestParam("images") List<MultipartFile> images, //name=image인 요소들 파일 형태 리스트로 가져오기

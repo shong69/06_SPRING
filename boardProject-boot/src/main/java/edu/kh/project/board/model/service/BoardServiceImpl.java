@@ -12,7 +12,8 @@ import edu.kh.project.board.model.dto.Board;
 import edu.kh.project.board.model.dto.Pagination;
 import edu.kh.project.board.model.mapper.BoardMapper;
 import lombok.RequiredArgsConstructor;
-
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor //필드에 final 붙인걸로 생성자에 @autowired 붙인것과 같은 효과를 내게 해줌
@@ -87,8 +88,7 @@ public class BoardServiceImpl implements BoardService{
 		//    2) 먼저 조회된 결과 중 일부를 이용해서 나중에 수행되는 SQL의 조건으로 삼을 수 있을 때
 		//  -> Mybatis의 동적SQL을 사용 
 		//  -> <resultMap>, <collection> 태그를 이용해 Mapper 메서드 1회 호출로 여러 select 한번에 수행 가능함
-		
-		
+		log.debug("test : "+mapper.selectOne(map));
 		return mapper.selectOne(map);
 	}
 
