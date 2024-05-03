@@ -36,14 +36,26 @@
 			DEFAULT, DEFAULT, #{boardNo}, #{memberNo},
 			
 			<!--자식 댓글-->
-			<if test="parentConnemtNo != 0">
+			<if test="parentCommentNo != 0">
 				#{parentCommentNo}
 			</if>
 			
 			<!--부모 댓글-->
-			<if test="parrentCommentNo == 0">
+			<if test="parentCommentNo == 0">
 				NULL
 			</if>
 			)
 	</insert>
+	
+	<update id ="update">
+		UPDATE "COMMENT" SET
+		COMMENT_CONTENT = #{commentContent}
+		WHERE COMMENT_NO= #{commentNo}
+	</update>
+	
+	<delete id="delete">
+		UPDATE "COMMENT" SET
+		COMMENT_DEL_FL = 'Y'
+		WHERE COMMENT_NO = #{commentNo}
+	</delete>
 </mapper>
