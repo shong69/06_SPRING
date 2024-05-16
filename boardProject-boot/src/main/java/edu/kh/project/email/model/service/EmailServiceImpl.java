@@ -127,7 +127,7 @@ public class EmailServiceImpl implements EmailService{
 		return templateEngine.process("email/" + htmlName, context);
 		//Process the specified template (usually the template name). 
 		//Output will be writteninto a String that will be returned from calling this method, 
-		//once template processinghas finished. 
+		//once template processing has finished. 
 	}
 	
 	

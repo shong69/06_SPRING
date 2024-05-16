@@ -191,13 +191,12 @@ public class EditBoardServiceImpl implements EditBoardService{
 					// 2) 기존 X -> 새 이미지 추가
 					result = mapper.insertImage(img);
 				}
-				
-				// 수정 또는 삭제가 실패한 경우
-				if(result == 0) {
-					throw new ImageUpdateException(); //사용자 정의 예외 -> 롤백
-				}
-				
 			}
+			// 수정 또는 삭제가 실패한 경우
+			if(result == 0) {
+				throw new ImageUpdateException(); //사용자 정의 예외 -> 롤백
+			}
+				
 		}
 		
 		
