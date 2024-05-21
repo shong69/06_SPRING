@@ -84,10 +84,6 @@ if(updateBtn != null){
         //현재 경로 중 "board"가 있으면 "editBoard"로 변경
 
 
-
-
-
-
     });
 }
 

@@ -35,9 +35,11 @@ public class BoardController {
 
 	private final BoardService service;
 	
-	/**
+	/** 게시글 목록 조회 + 검색
 	 * @param boardCode : 게시판 종류 구분 번호
 	 * @param cp : 현재 조회 요청한 페이지 값(없으면 1임) 
+	 * @param paramMap : 제출된 파라미터가 모두 저장된 Map
+	 * 					(검색 시 key, query가 담겨있음)
 	 * @return
 	 * 
 	 * - /board/xxx " /board 이하 1레벨 자리에 숫자로 된 요청 주소가 작성돼있을 때만 동작하도록 정규표현식 작성
@@ -49,16 +51,31 @@ public class BoardController {
 	@GetMapping("{boardCode:[0-9]+}") 
 	public String selectBoardList(
 			@PathVariable("boardCode") int boardCode,   //boardCode값이 들어오면 매개변수로 들어와서 해당 값 사용 가능
-			@RequestParam(value="cp", required=false, defaultValue="1") int cp,  //cp : correct page
-			Model model
+			@RequestParam(value="cp", required=false, defaultValue="1") int cp,  //cp : current page
+			Model model,
+			@RequestParam Map<String, Object> paramMap //key와 query로 검색 범위, 검색 내용 받아줄 파라미터
 			) { 
 		
 		log.debug("boardCode : "+ boardCode);
 		
 		//조회 서비스 호출 후 결과 반환
-		Map<String, Object> map = service.selectBoardList(boardCode, cp);
+		Map<String, Object> map = null;
 		
-		
+		//검색을 안하는 경우(그냥 목록 조회)
+		if(paramMap.get("key") == null) {  //paramMap이 {}으로 나온 경우->key로 찾아봐도 나오는 값이 없다 
+			
+			//게시글 목록 조회 서비스 호출
+			map = service.selectBoardList(boardCode, cp);
+			
+		} else { //검색인 경우 paramMap = {key=t, query=검색어}로 넘어옴
+			
+			//boardCode를 paramMap에 추가
+			paramMap.put("boardCode", boardCode);
+			
+			//검색 서비스 호출
+			map = service.searchList(paramMap, cp);
+		}
+				
 		model.addAttribute("pagination", map.get("pagination"));
 		model.addAttribute("boardList", map.get("boardList"));
 		
@@ -207,7 +224,7 @@ public class BoardController {
 				//imageList의 0번 인덱스 == 가장 빠른 순서(imgOrder순 조회)
 				//이미지 목록의 첫번째 행이 순서 0 == 썸네일인 경우
 				if(board.getImageList().get(0).getImgOrder()==0) { //0번째 이미지를 꺼냄 get(0)
-					thumbnail = board.getImageList().get(0); 
+					thumbnail = board.getImageList().get(0);
 					//썸네일에 0번째 인덱스 이미지 실어주기
 				}
 				model.addAttribute("thumbnail", thumbnail);

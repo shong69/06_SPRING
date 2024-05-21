@@ -38,6 +38,13 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
 	testImplementation 'org.springframework.security:spring-security-test'
+	
+	// Spring AOP + AspectJ MVN 레파지토리에서 찾아볼 수 있음 스프링 버전에 맞추기(버전 안적으면 알아서 설치해줌)
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+	//tus 프로토콜 의존성 추가
+	implementation "me.desair.tus:tus-java-server:1.0.0-2.0"
+	//영상 컨버팅 설정
+	//implementation 'net.bramp.ffmpeg:ffmpeg:0.7.0'
 }
 
 tasks.named('test') {

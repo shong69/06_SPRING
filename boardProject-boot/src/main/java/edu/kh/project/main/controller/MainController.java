@@ -25,5 +25,4 @@ public class MainController {
 		return "redirect:/";
 	}
 	
-	
 }
