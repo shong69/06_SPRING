@@ -263,7 +263,7 @@ checkAuthKeyBtn.addEventListener("click",()=>{
 
     fetch("/email/checkAuthKey",{
         method : "POST",
-        headers: {"Content_Type" : "application/json"},
+        headers: {"Content-Type" : "application/json"},
         body :JSON.stringify(obj) //obj를 JSON으로 변경하기
     })
     .then(resp=>resp.text()) //0이나 1인 단일 숫자값
