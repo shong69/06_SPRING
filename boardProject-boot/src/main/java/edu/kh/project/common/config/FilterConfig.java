@@ -23,7 +23,7 @@ public class FilterConfig {
 		filter.setFilter(new LoginFilter());
 		
 		// /myPage/* : myPage로 시작하는 모든 요청
-		String[] filteringURL = {"/myPage/*"}; //myPage로 시작하는 모든 주소가 배열에 들어간다
+		String[] filteringURL = {"/myPage/*", "/editBoard/*","/chatting/*"}; //myPage로 시작하는 모든 주소가 배열에 들어간다
 		
 		//필터가 동작할 URL을 세팅하기
 		//Arrays.asList(filteringURL) : 매개변수 배열을 List로 변환해줌
