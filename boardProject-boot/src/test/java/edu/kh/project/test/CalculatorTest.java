@@ -4,10 +4,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import lombok.extern.slf4j.Slf4j;
 
 //JUnit : Java 개발 표준 테스트 프레임워크
 //코드의 정상 동작을 확인하기 위해서 테스트를 작성하고 실행함
+@Slf4j
 public class CalculatorTest {
 
 	// 주요 어노테이션
@@ -27,7 +32,11 @@ public class CalculatorTest {
 	//인스턴스 생성
 	private Calculator calculator = new Calculator();
 	
-	
+	@BeforeAll
+	//JUnit5에서 @BeforAll / @AfterAll 메서드는 기본적으로 staticmethod여야 함
+	public static void start() {
+		log.info("테스트 시작");
+	}
 	
 	@Test
 	public void testAdd() {
@@ -73,4 +82,8 @@ public class CalculatorTest {
 		assertTrue(calculator.exam());
 	}
 	
+	@AfterAll
+	public static void end() {
+		log.info("테스트 끝");
+	}
 }
