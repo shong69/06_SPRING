@@ -275,7 +275,7 @@ if(profile != null){
        // 이벤트 리스너가 존재하지 않기 때문에 추가
        imageInput.addEventListener("change", changeImageFn);
        // 한번 화면에 추가된 요소(backupInput)는 재사용 불가능
-       //  backupInput의 백업본이 temp를 backupInput 으로 변경
+       //  backupInput의 백업본인 temp를 backupInput 으로 변경
        backupInput = temp;
      }
      return; // 다른 코드 수행할필요없이 바로 return

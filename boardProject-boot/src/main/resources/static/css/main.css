@@ -107,7 +107,16 @@
   }
   
   
+  /*날씨 부분*/
+  #weather-section{
+	display: flex;
+	align-items: center;
+  }
   
+  .weather-info{
+	font-size: 20px;
+	
+  }
   
   /* *************** nav *************** */
   nav{
